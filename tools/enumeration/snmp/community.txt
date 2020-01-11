@@ -1,0 +1,11 @@
+public
+private
+manager
+management
+admin
+login
+master
+password
+read
+smb
+samba
