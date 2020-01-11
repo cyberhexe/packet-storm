@@ -57,7 +57,7 @@ def bruteforce_basic_auth(url, login, password, method='GET', post_data='',
             resp = requests.post(url, data=post_data,
                                  headers={'Authorization': auth_header})
         else:
-            return
+            raise Exception('Unsupported HTTP method')
         if resp.status_code != error_code:
             return True
     except Exception as e:
