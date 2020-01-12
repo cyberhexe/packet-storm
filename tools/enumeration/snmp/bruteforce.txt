@@ -1,8 +1,0 @@
-Hydra v8.6 (c) 2017 by van Hauser/THC - Please do not use in military or secret service organizations, or for illegal purposes.
-
-Hydra (http://www.thc.org/thc-hydra) starting at 2019-11-06 12:46:38
-[DATA] max 16 tasks per 1 server, overall 16 tasks, 196 login tries (l:1/p:0), ~196 tries per task
-[DATA] attacking snmp://10.11.1.252:161/
-[STATUS] 128.00 tries/min, 128 tries in 00:00h, 0 to do in 01:00h, 68 active
-1 of 1 target completed, 0 valid passwords found
-Hydra (http://www.thc.org/thc-hydra) finished at 2019-11-06 12:48:23
