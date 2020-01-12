@@ -72,12 +72,13 @@ def get_arguments():
 
 def is_used_credentials(username, password,
                         used_credentials_file=DEFAULT_USED_CREDENTIALS_FILE):
-    with open(used_credentials_file, 'r') as f:
-        for line in f.readlines():
-            creds = f'{username}:{password}'
-            if creds == line.strip():
-                print(f'{creds} has already been used')
-                return True
+    if os.path.exists(used_credentials_file):
+        with open(used_credentials_file, 'r') as f:
+            for line in f.readlines():
+                creds = f'{username}:{password}'
+                if creds == line.strip():
+                    print(f'{creds} has already been used')
+                    return True
 
 
 def write_to_used_credentials_file(username, password,
