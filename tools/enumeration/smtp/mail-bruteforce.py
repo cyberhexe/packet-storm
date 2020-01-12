@@ -131,6 +131,9 @@ if leak_file_path:
     for line in leak_file_credentials:
         username = line.split(":")[0]
         password = line.split(":")[1]
+        if '@' in username:
+            username = username.split('@')[0]
+
         hacked = False
         if options.smtp:
             hacked = do_smtp_login(smtp_host=host,
@@ -151,6 +154,9 @@ if leak_file_path:
 else:
     for username in usernames:
         for password in passwords:
+            if '@' in username:
+                username = username.split('@')[0]
+
             hacked = False
             if options.smtp:
                 hacked = do_smtp_login(smtp_host=host,
@@ -167,3 +173,4 @@ else:
                     continue
                 else:
                     exit()
+
