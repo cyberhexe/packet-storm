@@ -8,4 +8,4 @@ rm -rf /usr/bin/ubuntu-shell &&
 link centos-shell.sh /usr/bin/centos-shell &&
 link impacket-smb-server.sh /usr/bin/impacket &&
 link tomcat.sh /usr/bin/tomcat &&
-link ubuntu-shel.sh /usr/bin/ubuntu-shell
+link ubuntu-shell.sh /usr/bin/ubuntu-shell
