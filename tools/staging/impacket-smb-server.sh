@@ -9,6 +9,6 @@ fi
 
 
 docker run --rm -it -p 445:445 \
-  -v "${PWD}:/tmp/serve" \
+  -v $1":/tmp/serve" \
   rflathers/impacket smbserver.py \
-  -smb2support $1 /tmp/serve
+  -smb2support my-awesome-share /tmp/serve
