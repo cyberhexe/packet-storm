@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 import socket
+from os import linesep
 from threading import Thread
 
 DEFAULT_THREADS_LIMIT = 10
@@ -33,11 +34,15 @@ def get_arguments():
 
 
 def do_dns_lookup(domain):
+    global counter
+    global wordlist_size
+    print(f"[{counter}/{wordlist_size}] Searching...", end='\r', flush=True)
     try:
         ip = socket.gethostbyname(domain)
-        print(f'{domain} - {ip}')
+        print(f'{linesep}{domain} - {ip}')
     except:
         pass
+    counter += 1
 
 
 options = get_arguments()
@@ -47,6 +52,8 @@ with open(options.wordlist, 'r', errors='ignore') as f:
     wordlist = [line.strip() for line in f.readlines()]
 
 dns_threads = []
+counter = 0
+wordlist_size = len(wordlist)
 for domain in wordlist:
     while len(dns_threads) >= threads_limit:
         for thread in dns_threads.copy():
