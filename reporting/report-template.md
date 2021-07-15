@@ -1,0 +1,99 @@
+# Pentest Report Template
+
+**Penetration Tester:**
+*Name:* Operator Name
+*OffSec ID:* 123
+*Email:* example@domain
+
+* * *
+
+**Assessment Date**
+18-19.06.2021
+
+<div style="page-break-after: always; visibility: hidden;">\pagebreak</div>
+
+# Table of Contents
+
+${toc}
+
+<div style="page-break-after: always; visibility: hidden;">\pagebreak</div>
+
+# Introduction
+
+The report documentation contains all efforts that were conducted in order to perform a penetration test against X.
+This report will be graded from a standpoint of correctness and fullness to all aspects of the assessment.
+
+# Objective
+
+The objective of this assessment is to perform a penetration test towards X network.
+
+The operator is tasked with following methodical approach in obtaining access to the objective goals.
+This test should simulate an actual penetration test and how you would start from beginning to end, including the overall report.
+
+# Requirements
+
+The operator will be required to fill out this documentation fully and to include the following sections:
+
+- Methodology walkthrough and detailed outline of steps taken
+- Each finding with included screenshots, walkthrough, sample code, and proof.txt if applicable
+- Any additional items that were not included
+
+# High-Level Summary
+
+I was tasked with performing an internal penetration test towards the X system. 
+An internal penetration test is a dedicated attack against internally connected systems. 
+
+The focus of this test is to perform attacks, similar to those of an intruder and attempt 
+to infiltrate X systems - the ones hosted on the following domains:
+
+- x.net
+- xx.net
+- xxx.net
+- xxxx.net
+
+The overall objective was to evaluate the network, identify systems, and exploit flaws while reporting
+the findings back to X GmbH.
+
+The attacks were conducted with the level of access that a general Internet user would have.
+The company's assets and access to the source code have been provided by the system owners.
+The assessment was conducted in accordance with the recommendations outlined in NIST SP 800-115 
+with all tests and actions being conducted under controlled conditions.
+
+
+When performing the internal penetration test, there were several vulnerabilities that were identified
+in X applications and their infrastructure.
+
+<div style="page-break-after: always; visibility: hidden;">\pagebreak</div>
+
+# Whitebox Audit - System IP 192.168.127.132
+
+## Demo Web Application - Vuln Name
+
+### Vulnerability Explanation
+
+XXX
+
+Please refer to the **Exploitation Steps** section for technical details.
+Please refer to the **Proof of Concept** section to see the proof.
+Please refer to the **Exploit Code** section to see the exploit code.
+
+### Vulnerability Remediation
+
+XXX
+
+### Exploitation Steps
+
+1 - 111
+2 - 222
+3 - 333
+
+<div style="page-break-after: always; visibility: hidden;">\pagebreak</div>
+
+### Proof of Concept
+
+<div style="page-break-after: always; visibility: hidden;">\pagebreak</div>
+
+### Exploit Code
+
+<div style="page-break-after: always; visibility: hidden;">\pagebreak</div>
+
