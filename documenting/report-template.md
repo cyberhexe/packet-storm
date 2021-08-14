@@ -2,7 +2,7 @@
 
 **Penetration Tester:**
 *Name:* Operator Name
-*OffSec ID:* 123
+*OffSec ID:* OS-123
 *Email:* example@domain
 
 * * *
@@ -25,7 +25,7 @@ This report will be graded from a standpoint of correctness and fullness to all 
 
 # Objective
 
-The objective of this assessment is to perform a penetration test towards X network.
+The objective of this assessment is to perform a penetration test towards the X network.
 
 The operator is tasked with following methodical approach in obtaining access to the objective goals.
 This test should simulate an actual penetration test and how you would start from beginning to end, including the overall report.
@@ -35,16 +35,16 @@ This test should simulate an actual penetration test and how you would start fro
 The operator will be required to fill out this documentation fully and to include the following sections:
 
 - Methodology walkthrough and detailed outline of steps taken
-- Each finding with included screenshots, walkthrough, sample code, and proof.txt if applicable
+- Each finding with included screenshots, walkthrough, sample code, and proof-of-concept if applicable
 - Any additional items that were not included
 
 # High-Level Summary
 
-I was tasked with performing an internal penetration test towards the X system. 
+I was tasked with performing a penetration test towards the X system. 
 An internal penetration test is a dedicated attack against internally connected systems. 
 
-The focus of this test is to perform attacks, similar to those of an intruder and attempt 
-to infiltrate X systems - the ones hosted on the following domains:
+The focus of this test is to perform attacks, similar to those of an intruder and attempt to infiltrate X systems - 
+the ones hosted on the following domains:
 
 - x.net
 - xx.net
@@ -55,7 +55,6 @@ The overall objective was to evaluate the network, identify systems, and exploit
 the findings back to X GmbH.
 
 The attacks were conducted with the level of access that a general Internet user would have.
-The company's assets and access to the source code have been provided by the system owners.
 The assessment was conducted in accordance with the recommendations outlined in NIST SP 800-115 
 with all tests and actions being conducted under controlled conditions.
 
@@ -80,6 +79,8 @@ Please refer to the **Exploit Code** section to see the exploit code.
 ### Vulnerability Remediation
 
 XXX
+
+### CVSS Score
 
 ### Exploitation Steps
 
