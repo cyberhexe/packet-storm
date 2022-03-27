@@ -18,5 +18,5 @@ echo "Cleaning old export folder"
 rm -rf "$export_folder_name"
 
 echo "Exporting the notebook"
-xvfb-run cherrytree -t "$export_folder_name" $import_cherrytree_notebook || exit 1
+xvfb-run cherrytree -s -x "$export_folder_name" "$import_cherrytree_notebook" || exit 1
 echo "OK"
