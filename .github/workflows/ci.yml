@@ -18,7 +18,7 @@ jobs:
       run: |
         sudo apt update
         sudo apt install xvfb libgtkmm-3.0-1v5 libgtksourceviewmm-3.0-0v5 libxml++2.6-2v5 libatkmm-1.6-1v5 libcairomm-1.0-1v5 libglibmm-2.4-1v5 mime-support libpangomm-1.4-1v5 libsigc++-2.0-0v5  -y
-        wget http://ftp.de.debian.org/debian/pool/main/g/gspell/libgspell-1-1_1.6.1-2_arm64.deb -O libgspell.deb
+        wget http://ftp.de.debian.org/debian/pool/main/g/gspell/libgspell-1-1_1.6.1-2_amd64.deb -O libgspell.deb
         sudo dpkg -i libgspell.deb
         wget https://launchpad.net/~giuspen/+archive/ubuntu/ppa/+files/cherrytree_0.99.46-1_amd64.deb -O cherrytree.deb
         sudo dpkg -i cherrytree.deb || exit 1
