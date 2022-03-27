@@ -1,7 +1,7 @@
 #!/bin/bash
 
 if [ -z "$1" ]; then
-    echo "Usage: $0 <target cherrytree file>"
+    echo "Usage: $0 <target cherrytree file> "
     exit 0
 fi
 
