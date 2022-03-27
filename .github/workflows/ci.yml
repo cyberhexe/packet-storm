@@ -15,5 +15,6 @@ jobs:
     - name: Export glossary notes to TXT format
       shell: bash
       run: |
-        ls,
+        cd packet-storm/,
+        cd documentation/,
         /bin/bash ./export.sh.
