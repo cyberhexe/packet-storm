@@ -14,6 +14,4 @@ jobs:
     - uses: actions/checkout@master
     - name: Export glossary notes to TXT format
       shell: bash
-      run: |
-        cd /home/runner/work/packet-storm/packet-storm/documentation
-        /bin/bash ./export.sh.
+      run: /home/runner/work/packet-storm/packet-storm/documentation/export.sh
