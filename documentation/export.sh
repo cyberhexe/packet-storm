@@ -4,6 +4,7 @@ import_cherrytree_notebook="pentest-glossary.ctb"
 export_folder_name="glossary-export"
 
 echo "Installing cherrytree and xvfb"
+sudo apt update || exit 1
 sudo apt install xvfb cherrytree -y || exit 1
 
 
