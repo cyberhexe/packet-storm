@@ -14,7 +14,6 @@ jobs:
     - uses: actions/checkout@master
     - name: Install essentials
       shell: bash
-# Libraries not found in APT: libgspell-1-1
       run: |
         sudo apt update
         sudo apt install xvfb libgspell-1-common libenchant1c2a libgtkmm-3.0-1v5 libgtksourceviewmm-3.0-0v5 libxml++2.6-2v5 libatkmm-1.6-1v5 libcairomm-1.0-1v5 libglibmm-2.4-1v5 mime-support libpangomm-1.4-1v5 libsigc++-2.0-0v5 -y
