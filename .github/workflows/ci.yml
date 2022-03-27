@@ -23,5 +23,7 @@ jobs:
         wget https://launchpad.net/~giuspen/+archive/ubuntu/ppa/+files/cherrytree_0.99.46-1_amd64.deb -O cherrytree.deb
         sudo dpkg -i cherrytree.deb || exit 1
     - name: Export glossary notes to TXT format
-      shell: bash
-      run: /home/runner/work/packet-storm/packet-storm/documentation/export.sh pentest-notizen.ctb
+      uses: GabrielBB/xvfb-action@v1
+      with:
+        run: ./export.sh pentest-glossary.ctb
+        working-directory: /home/runner/work/packet-storm/packet-storm/documentation/
