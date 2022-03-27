@@ -5,7 +5,8 @@ export_folder_name="glossary-export"
 
 echo "Installing cherrytree and xvfb"
 sudo apt update || exit 1
-sudo apt install xvfb cherrytree -y || exit 1
+sudo apt install xvfb -y || exit 1
+sudo snap install cherrytree || exit 1
 
 
 echo "Cleaning old export folder"
