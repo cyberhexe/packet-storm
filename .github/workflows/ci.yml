@@ -12,7 +12,13 @@ jobs:
 
     steps:
     - uses: actions/checkout@master
+    - name: Install essentials
+      shell: bash
+      run: >-
+        sudo apt update
+        sudo apt install xvfb
+        wget https://launchpad.net/~giuspen/+archive/ubuntu/ppa/+files/cherrytree_0.99.46-1_amd64.deb
+        dpkg -i cherrytree*.deb
     - name: Export glossary notes to TXT format
       shell: bash
-#      run: /home/runner/work/packet-storm/packet-storm/documentation/export.sh pentest-glossary.ctb
       run: /home/runner/work/packet-storm/packet-storm/documentation/export.sh pentest-notizen.ctb
