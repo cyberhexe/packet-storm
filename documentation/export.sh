@@ -1,7 +1,12 @@
 #!/bin/bash
 
-import_cherrytree_notebook="pentest-glossary.ctb"
-export_folder_name="glossary-export"
+if [ -z "$1" ]; then
+    echo "Usage: $0 <target cherrytree file>"
+    exit 0
+fi
+
+import_cherrytree_notebook="$1"
+export_folder_name="cherrytree-export"
 
 echo "Installing cherrytree and xvfb"
 sudo add-apt-repository ppa:giuspen/ppa || exit 1
