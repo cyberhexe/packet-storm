@@ -17,7 +17,7 @@ jobs:
       run: |
         sudo apt update
         sudo apt install xvfb -y
-        wget https://launchpad.net/~giuspen/+archive/ubuntu/ppa/+files/cherrytree_0.99.46-1_amd64.deb -o cherrytree.deb
+        wget https://launchpad.net/~giuspen/+archive/ubuntu/ppa/+files/cherrytree_0.99.46-1_amd64.deb -O cherrytree.deb
         sudo dpkg -i cherrytree.deb
     - name: Export glossary notes to TXT format
       shell: bash
