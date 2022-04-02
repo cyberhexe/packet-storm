@@ -24,5 +24,5 @@ jobs:
     - name: Export glossary notes to TXT format
       uses: GabrielBB/xvfb-action@v1
       with:
-        run: ./export.sh pentest-glossary.ctb
-        working-directory: /home/runner/work/packet-storm/packet-storm/documentation/
+        run: ./devops/convert-ctb.sh documentation/pentest-glossary.ctb /tmp
+        working-directory: /home/runner/work/packet-storm/packet-storm/
