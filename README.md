@@ -14,12 +14,15 @@ $ docker build -t packet-storm-docs -f ./devops/Dockerfile .
 
 Use the following command to start the server in Docker:
 ```bash
-$ docker run --rm -it packet-storm-docs:latest
+$ docker run --rm -it -p 80:80 packet-storm-docs:latest
 root@6d0e4a4a09d2:/# 
 ```
 
 or this if you want to get an interactive shell:
 ```bash
-$ docker run --rm -it --entrypoint=/bin/bash packet-storm-docs:latest
+$ docker run --rm -it --entrypoint=/bin/bash -p 80:80 packet-storm-docs:latest
 root@6d0e4a4a09d2:/# 
 ```
+
+The glossary is available at the following location:
+`/packet-storm-docs/glossary`

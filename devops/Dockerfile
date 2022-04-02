@@ -18,7 +18,7 @@ WORKDIR "$PACKET_STORM_DOCS"
 
 COPY documentation "$PACKET_STORM_DOCS"
 COPY devops/convert-ctb.sh "$PACKET_STORM_DOCS"
-RUN /bin/bash convert-ctb.sh pentest-glossary.ctb "$NGINX_DOCS_PATH"
+RUN /bin/bash convert-ctb.sh pentest-glossary.ctb "$NGINX_DOCS_PATH/glossary"
 
 COPY devops/entrypoint.sh "$PACKET_STORM_HOME"
 
