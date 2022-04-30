@@ -11,6 +11,10 @@ console = Console()
 
 history_file = "~/.packet-storm-history"
 
+# sudo apt install python3-magic
+# shell token : rO24cXxgfQwJ_oSPOBGE/QTzTWYTIN+mzxay9pSu3jNOIj/WGoawK5mc=
+
+
 def get_arguments():
     from argparse import ArgumentParser
     parser = ArgumentParser(description="Packet Storm Docs Parser Script")

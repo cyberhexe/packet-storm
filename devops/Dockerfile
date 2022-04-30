@@ -15,7 +15,7 @@ WORKDIR "$PACKET_STORM_DOCS"
 COPY docs "$PACKET_STORM_DOCS"
 COPY devops/scripts/convert-ctb.sh "$PACKET_STORM_DOCS"
 
-COPY devops/scripts/docs-parse.py "$PACKET_STORM_HOME"
+COPY devops/scripts/docs-parser.py "$PACKET_STORM_HOME"
 COPY devops/scripts/requirements.txt "$PACKET_STORM_HOME"
 
 RUN pip3 install -r "$PACKET_STORM_HOME/requirements.txt"
@@ -23,4 +23,4 @@ RUN pip3 install -r "$PACKET_STORM_HOME/requirements.txt"
 RUN /bin/bash convert-ctb.sh pentest-glossary.ctb "output"
 
 WORKDIR "$PACKET_STORM_HOME"
-ENTRYPOINT ["/bin/python3", "docs-parse.py", "-ed", "docs/output"]
+ENTRYPOINT ["/bin/python3", "docs-parser.py", "-ed", "docs/output"]
