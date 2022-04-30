@@ -39,7 +39,7 @@ style = Style.from_dict({
 
 class CommandPrompt:
     def __init__(self, prompt_str: str, completer: Completer = None,
-                 bottom_toolbar_tokens: dict = None,
+                 bottom_toolbar_tokens: list = None,
                  style: Style = None):
         self.prompt_str = prompt_str
         self.completer = completer
@@ -64,7 +64,7 @@ class SearchCompleter(Completer):
 
     def get_completions(self, document, complete_event):
         for node in self.nodes:
-            if document.text.lower() in node.file_name.lower():
+            if document.text.lower() in node.normalized_name.lower():
                 yield Completion(node.normalized_name, start_position=-1000)
 
 
