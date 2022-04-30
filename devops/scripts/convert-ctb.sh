@@ -13,10 +13,8 @@ fi
 ctb_file="$1"
 output_dir="$2"
 
-mkdir -p "$output_dir" 2>/dev/null
-
 echo "Converting $ctb_file"
 
-xvfb-run -s '-terminate' cherrytree -x "/tmp" "$1" || exit
-mv /tmp/*_HTML/* "$output_dir" || exit
-rm -rf /tmp/*_HTML || exit
+xvfb-run -s '-terminate' cherrytree -t . "$ctb_file" &&
+mv "$ctb_file"_TXT "$output_dir" &&
+echo OKAY

@@ -1,27 +1,24 @@
 # packet-storm
 
-Items and tools you may need on a red team engagement.
+Tools and docs you may need on a penetration test.
 
-- You can find various tools devided by their category at the `./tools` folder
+- You can find various tools devided by their category in the `./tools` folder
 - You can find some basic wordlists stored under the `./wordlists` folder
-- You can find a simple pentest report template and related technical documentation inside the `./documentation` folder
+- You can find cheat-sheets and cherrytree templates inside the `./documentation` folder
 
-The app converts the cherrytree notes into HTML files and exports them to an Nginx server.
-Use this command for building it:
+Building with Docker:
 ```bash
-$ docker build -t packet-storm-docs -f ./devops/Dockerfile .
+$ docker build -t packet-storm -f ./devops/Dockerfile .
 ```
 
-Use the following command to start the server in Docker:
+Printing help:
 ```bash
-$ docker run --rm -it -p 80:80 packet-storm-docs:latest
-root@6d0e4a4a09d2:/# 
+$ docker run --rm -it packet-storm -h
 ```
 
-or this if you want to get an interactive shell:
+Running in interactive mode:
 ```bash
-$ docker run --rm -it --entrypoint=/bin/bash -p 80:80 packet-storm-docs:latest
-root@6d0e4a4a09d2:/# 
+$ docker run --rm -it packet-storm
 ```
 
 The glossary is available at the following location:
