@@ -2,9 +2,6 @@
 
 Your personal hacking station.
 
-- You can find various tools devided by their category in the `./tools` folder
-- You can find some basic wordlists stored under the `./wordlists` folder
-- You can find cheat-sheets and box templates inside the `./docs` folder
 
 ### Minimalistic setup
 
