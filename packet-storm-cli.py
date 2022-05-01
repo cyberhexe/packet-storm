@@ -67,7 +67,6 @@ def get_random_hacker_phrase():
         "I don't play well with others.",
         "I couldn't think as slow as you if I tried.",
         "I invented it.",
-        "Now the hunted becomes the hunter.",
         "Let the hacking begin.",
         "Come on, baby!",
         "It's beautiful.",
