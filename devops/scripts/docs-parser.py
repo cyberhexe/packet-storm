@@ -15,15 +15,19 @@ history_file = "~/.packet-storm-history"
 # shell token : rO24cXxgfQwJ_oSPOBGE/QTzTWYTIN+mzxay9pSu3jNOIj/WGoawK5mc=
 
 
+docs_extension_list = ['mkd', 'md', 'txt']
+
 def get_arguments():
     from argparse import ArgumentParser
     parser = ArgumentParser(description="Packet Storm Docs Parser Script")
     parser.add_argument('-ed',
                         '--export-dir',
                         dest='export_dir',
-                        required=True,
+                        required=False,
                         type=str,
-                        help="Specify the export directory path from the cherrytree converter script")
+                        help="Specify the directory path with .md or .txt files to parse. "
+                             "The script will recursively walk through the directories and parse the markdown "
+                             "or text files into the compatible structure the script understands.")
     options = parser.parse_args()
     return options
 
@@ -40,24 +44,47 @@ style = Style.from_dict({
     'bottom-toolbar': '#ffffff bg:#333333',
 })
 
+def get_nodes_from_directory():
+    pass
+
+def get_random_hacker_phrase():
+    from random import choice
+
+    return choice([
+        "We're in.",
+        "Hello.",
+        "I don't play well with others.",
+        "I couldn't think as slow as you if I tried.",
+        "I invented it.",
+        "Now the hunted becomes the hunter.",
+        "Let the hacking begin.",
+        "Come on, baby!",
+        "It's beautiful.",
+        "Now, we wait.",
+        "Too easy.",
+        "That's why hackers always win.",
+        "In English, please!"
+    ])
 
 class CommandPrompt:
     def __init__(self, prompt_str: str, completer: Completer = None,
-                 bottom_toolbar_tokens: list = None,
                  style: Style = None):
         self.prompt_str = prompt_str
         self.completer = completer
-        self.bottom_toolbar_tokens = bottom_toolbar_tokens
         self.style = style
         if os.path.exists(history_file):
             self.session = PromptSession(history=FileHistory(history_file))
         else:
             self.session = PromptSession()
 
-    def input(self):
-        return self.session.prompt(self.prompt_str, completer=self.completer,
+    def input(self, bottom_toolbar_tokens: list = None, prompt_str: str = None):
+        if prompt_str:
+            _prompt_str = prompt_str
+        else:
+            _prompt_str = self.prompt_str
+        return self.session.prompt(_prompt_str, completer=self.completer,
                       complete_while_typing=True,
-                      bottom_toolbar=self.bottom_toolbar_tokens,
+                      bottom_toolbar=bottom_toolbar_tokens,
                       style=self.style)
 
 
@@ -73,14 +100,15 @@ class SearchCompleter(Completer):
 
 
 class TxtNode:
-    def __init__(self, file_path: str):
-        if not os.path.exists(file_path):
-            raise Exception(f"{file_path} does not exist")
-        self.file_path = file_path
+    def __init__(self, root_dir: str, abs_path: str):
+        if not os.path.exists(abs_path):
+            raise Exception(f"{abs_path} does not exist")
+        self.root_dir = root_dir
+        self.file_path = abs_path
         self.file_name = os.path.basename(self.file_path)
-        with open(file_path, 'r') as f:
+        with open(abs_path, 'r') as f:
             self.content = f.read()
-        self.normalized_name = self.file_name.replace('--', '/').replace('_', ' ').replace('.txt', '')
+        self.normalized_name = self.file_path.split('.')[0].split(self.root_dir)[1].lstrip(os.sep)
 
     def print_md(self):
         print("\033c", end='')
@@ -89,25 +117,33 @@ class TxtNode:
 
 def main():
     options = get_arguments()
-    export_dir = options.export_dir
-
-    if export_dir.endswith('/'):
-        export_dir = export_dir[0:-1]
 
     nodes = []
-    for entry in os.scandir(export_dir):
-        if entry.is_file() and 'txt' in entry.name:
-            node = TxtNode(file_path=f"{export_dir}/{entry.name}")
-            nodes.append(node)
+
+    export_dir = options.export_dir
+    if export_dir:
+        if export_dir.endswith('/'):
+            export_dir = export_dir[0:-1]
+
+        # traverse root directory, and list directories as dirs and files as files
+        for root, dirs, files in os.walk(export_dir):
+            path = root.split(os.sep)
+            # print((len(path) - 1) * '---', os.path.basename(root))
+            for file in files:
+                abs_path = f"{os.sep.join(path)}{os.sep}{file}"
+
+                if any(abs_path.endswith(ext) for ext in docs_extension_list):
+                    node = TxtNode(root_dir=export_dir, abs_path=abs_path)
+                    nodes.append(node)
+
 
     if nodes:
-        print('What are we looking for?')
+        print("What are you looking for?")
         word_completer = SearchCompleter(nodes)
         command_prompt = CommandPrompt('>> ', completer=word_completer,
-                                       bottom_toolbar_tokens=bottom_toolbar(f"{len(nodes)} pages imported"),
                                        style=style)
         while True:
-            docs_name = command_prompt.input()
+            docs_name = command_prompt.input(bottom_toolbar_tokens=get_random_hacker_phrase())
             for node in nodes:
                 if docs_name == node.normalized_name:
                     node.print_md()

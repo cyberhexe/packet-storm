@@ -1,6 +1,6 @@
 # packet-storm
 
-Tools and docs you may need on a penetration test.
+Your personal hacking station.
 
 - You can find various tools devided by their category in the `./tools` folder
 - You can find some basic wordlists stored under the `./wordlists` folder
