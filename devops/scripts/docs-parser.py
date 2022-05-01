@@ -44,9 +44,6 @@ style = Style.from_dict({
     'bottom-toolbar': '#ffffff bg:#333333',
 })
 
-def get_nodes_from_directory():
-    pass
-
 def get_random_hacker_phrase():
     from random import choice
 
@@ -61,9 +58,19 @@ def get_random_hacker_phrase():
         "Come on, baby!",
         "It's beautiful.",
         "Now, we wait.",
+        "Hack the Planet!",
+        "Are you stoned or stupid?",
+        "We have no names, man. No names!",
         "Too easy.",
+        "By the time they realise the truth, we'll be long gone.",
+        "I got an idea.",
+        "A minor glitch with you seems to turn into a major catastrophe.",
+        f"- It's too much machine for you.{os.linesep}- Yeah?",
+        "Name your stakes.",
+        "What the hell are you doing?",
+        "You know anything about computers?",
         "That's why hackers always win.",
-        "In English, please!"
+        "In English, please!",
     ])
 
 class CommandPrompt:
