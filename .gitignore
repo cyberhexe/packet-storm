@@ -1,3 +1,5 @@
 # auto-export folder
 documentation/cherrytree-export/
 **/output
+**meta.json
+trilium-data/

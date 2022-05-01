@@ -1,0 +1,17 @@
+version: "3"
+services:
+  trilium-server:
+    image: zadam/trilium
+    ports:
+      - 8000:8000
+    volumes:
+      - ./docs:/opt/docs:ro
+
+  packet-storm-cli:
+    depends_on:
+      - trilium-server
+    build:
+      context: ..
+      dockerfile: ./devops/Dockerfile
+    stdin_open: true
+    tty: true
