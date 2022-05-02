@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 import os
+from threading import Thread
 
 from prompt_toolkit import PromptSession
 from prompt_toolkit.completion import Completer, Completion
@@ -7,9 +8,7 @@ from prompt_toolkit.history import FileHistory
 from prompt_toolkit.styles import Style
 from rich.console import Console
 from rich.markdown import Markdown
-from threading import Thread
 from trilium_py.client import ETAPI
-import time
 
 console = Console()
 
@@ -40,10 +39,14 @@ def get_arguments():
                         type=str,
                         help="Specify the ETAPI token of your Trilium user")
     options = parser.parse_args()
+    if options.server_url and not options.token:
+        parser.error("--token must be provided if --server-url has been given")
+    if not options.server_url and options.token:
+        parser.error("--server-url must be provided if --token has been given")
     return options
 
 
-def print_delimeter():
+def print_delimiter():
     print()
     print("[ ::::::::::::::::::::::::::::::::::::::::::::::::::::::::: ]")
     print()
@@ -71,8 +74,6 @@ def get_random_hacker_phrase():
         "Come on, baby!",
         "It's beautiful.",
         "Now, we wait.",
-        "Hack the Planet!",
-        "Are you stoned or stupid?",
         "I got an idea.",
         "What the hell are you doing?",
         "You know anything about computers?",
@@ -144,21 +145,17 @@ class TriliumNotesSyncThread:
 
                 if 'results' in response:
                     for note in response['results']:
-                        remote_content = self.ea.get_note_content(noteId=note['noteId'])
+                        remote_content = self.ea.get_note_content(noteId=note['noteId']).strip()
 
                         remote_note_title = note['title']
 
                         if remote_note_title != node.title:
                             continue
-
-                        if remote_content.strip() == node.content.strip():
+                        if remote_content == node.content.strip():
                             continue
                         else:
                             with open(node.abs_path, 'w') as f:
-                                f.write(remote_content.strip())
-
-            # print("Sleeping for 10 seconds...")
-            # time.sleep(10)
+                                f.write(remote_content)
 
     def start(self):
         self.thread.start()
@@ -168,7 +165,6 @@ def traverse_dir(export_dir: str):
     files_list = []
     for root, dirs, files in os.walk(export_dir):
         path = root.split(os.sep)
-        # print((len(path) - 1) * '---', os.path.basename(root))
         for file in files:
             abs_path = f"{os.sep.join(path)}{os.sep}{file}"
 
@@ -195,7 +191,6 @@ def main():
         if export_dir.endswith('/'):
             export_dir = export_dir[0:-1]
 
-        # traverse root directory, and list directories as dirs and files as files
         nodes = load_notes(export_dir=export_dir)
 
     if nodes:
@@ -205,16 +200,17 @@ def main():
                                                  export_dir=export_dir)
             sync_thread.start()
 
+        print_delimiter()
         print("What are you looking for?")
         word_completer = SearchCompleter(nodes)
         command_prompt = CommandPrompt('>> ', completer=word_completer,
                                        style=style)
         while True:
             docs_name = command_prompt.input(bottom_toolbar_tokens=get_random_hacker_phrase())
-            for node in nodes:
+            for node in load_notes(export_dir=export_dir):
                 if docs_name == node.normalized_name:
                     node.print_md()
-                    print_delimeter()
+                    print_delimiter()
 
 
 if __name__ == '__main__':
