@@ -128,6 +128,7 @@ class CommandPrompt:
                 # push the changes to the trilium server
                 with open(self.current_node.abs_path, 'r') as f:
                     updated_content = f.read()
+                    self.current_node.content = updated_content
                 if self.sync_thread:
                     response = self.sync_thread.ea.search_note(search=self.current_node.title)
 
@@ -139,6 +140,8 @@ class CommandPrompt:
                                 continue
                             else:
                                 self.sync_thread.ea.update_note_content(noteId=note['noteId'], content=updated_content)
+                self.current_node.print_md()
+                print_delimiter()
 
         def bottom_toolbar():
             return [
@@ -198,6 +201,7 @@ class TriliumNotesSyncThread:
                         else:
                             with open(node.abs_path, 'w') as f:
                                 f.write(remote_content)
+                            node.content = remote_content
 
     def start(self):
         self.thread.start()

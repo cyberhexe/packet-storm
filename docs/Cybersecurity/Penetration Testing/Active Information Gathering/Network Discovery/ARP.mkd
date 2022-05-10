@@ -8,6 +8,3 @@ set SMAC d6:46:a7:38:15:65
 set THREADS 55 
 run
 ```
-
-
-
