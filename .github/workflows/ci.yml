@@ -27,7 +27,6 @@ jobs:
       - run: zip -r Cybersecurity.zip ./docs/Cybersecurity
       - uses: actions/upload-artifact@v3
         with:
-          name: Cybersecurity-docs
           path: Cybersecurity.zip
 
       - uses: ncipollo/release-action@v1
