@@ -1,3 +1,5 @@
+## Web Content Discovery
+
 Use SecLists and get creative with WFUZZ!
 
 - https://sirensecurity.io/blog/seclists/

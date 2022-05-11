@@ -1,3 +1,23 @@
+## Docker Commands
+
+Building Docker images for a different architecture:
+
+```bash
+docker buildx build --load --builder generic-builder --platform linux/arm64 -f ./Dockerfile -t masscan-web-ui-docker-arm64
+```
+
+Saving an image to a file:
+
+```bash
+docker save image-name > image.tar
+```
+
+Loading an image from a file:
+
+```bash
+docker load image-name < image.tar
+```
+
 ## Docs/Notes Convertation
 
 Exporting Cherrytree notes in bash:
@@ -105,10 +125,9 @@ sudo sshfs -o IdentityFile=kommandos-key.pem gh0st@10.10.10.10:/home/gh0st/hugin
 Configuring git to store credentials securely:
 
 ```bash
-1.1 Storing credentials securely on Linux
 #!/bin/bash
 set - e
-sudo apt-get -y install libsecret-1-0 libsecret-1-dev libglib2.0-dev
-sudo make --directory=/usr/share/doc/git/contrib/credential/libsecret
+sudo apt-get -y install libsecret-1-0 libsecret-1-dev libglib2.0-dev
+sudo make --directory=/usr/share/doc/git/contrib/credential/libsecret
 git config --global credential.helper /usr/share/doc/git/contrib/credential/libsecret/git-credential-libsecret
 ```
