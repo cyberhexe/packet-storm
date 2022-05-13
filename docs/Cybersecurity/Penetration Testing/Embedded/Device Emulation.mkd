@@ -1,3 +1,10 @@
+## Resources
+- https://eclipsys.ca/how-to-enable-nested-virtualization-in-virtualbox-new-feature/
+- https://vitux.com/how-to-install-kvm-and-virtmanager-on-kali-linux/
+- https://www.exoscale.com/syslog/install-kvm-on-a-virtual-machine-to-get-nested-instances/
+- https://www.techotopia.com/index.php/Installing_a_KVM_Guest_OS_from_the_Command-line_(virt-install)
+- https://blog.agchapman.com/using-qemu-to-emulate-a-raspberry-pi/
+
 ## Device Emulation with KVM
 
 Prepare the KVM emulation environment:
