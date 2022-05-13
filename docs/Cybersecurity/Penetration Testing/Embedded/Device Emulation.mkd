@@ -70,3 +70,27 @@ apt install vagrant virtualbox-qt
 vagrant init ramdsc/aarch64-development --box-version 1.0.0
 vagrant up
 ```
+
+Running the emulator with QEMU:
+
+```bash
+#!/bin/bash
+
+# qemu-img create -f qcow2 hcp5.img 10G
+
+qemu-system-x86_64 \
+-enable-kvm \
+-m 2048 \
+-smp 2 \
+-cpu host \
+-soundhw es1370 \
+-device virtio-mouse-pci -device virtio-keyboard-pci \
+-serial mon:stdio \
+-boot menu=on \
+-net nic \
+-net user,hostfwd=tcp::5555-:22 \
+-device virtio-vga,virgl=on \
+-display gtk,gl=on \
+-hda hcp5.img \
+-cdrom system.img
+```
