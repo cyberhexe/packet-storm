@@ -45,7 +45,8 @@ Bust sub-domains:
 ```bash
 gobuster dns -d someDomain.com -w /usr/share/seclists/Discovery/DNS/subdomains-top1million-110000.txt -t 30
 ```
---> **Make sure any DNS name you find resolves to an in-scope address before you test it.**
+
+**Make sure any DNS name you find resolves to an in-scope address before you test it.**
 
 ---
 
