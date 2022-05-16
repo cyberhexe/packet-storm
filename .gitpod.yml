@@ -1,0 +1,7 @@
+tasks:
+  - init: |
+      echo 'Pulling the latest master'
+      git pull origin master
+    command: |
+      echo 'Pulling the latest master'
+      git pull origin master

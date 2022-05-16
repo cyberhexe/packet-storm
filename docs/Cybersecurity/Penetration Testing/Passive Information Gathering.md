@@ -1,4 +1,6 @@
 
+## General information
+
 Passive information gathering is the process of collecting information about your target using publicly available sources. 
 
 This could include services like:
