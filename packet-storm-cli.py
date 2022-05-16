@@ -79,6 +79,13 @@ style = Style.from_dict({
     'bottom-toolbar': '#ffffff bg:#333333',
 })
 
+box_style = Style.from_dict({
+    'dialog': 'bg:#88ff88',
+    'dialog frame.label': 'bg:#ffffff #000000',
+    'dialog.body': 'bg:#000000 #00ff00',
+    'dialog shadow': 'bg:#00aa00',
+})
+
 
 class TxtNode:
     def __init__(self, root_dir: str, abs_path: str):
@@ -95,6 +102,16 @@ class TxtNode:
     def print_md(self):
         print("\033c", end='')
         console.print(Markdown(self.content))
+
+
+
+
+def get_bottom_toolbar():
+    global toolbar_text
+    return [
+        ('class:toolbar', ' [F3] Create note'),
+        ('class:toolbar', ' [F4] Edit note')
+    ]
 
 
 class CommandPrompt:
@@ -124,19 +141,10 @@ class CommandPrompt:
 
         @self.bindings.add("f3")
         def _(event):
-            box_style = Style.from_dict({
-                'dialog': 'bg:#88ff88',
-                'dialog frame.label': 'bg:#ffffff #000000',
-                'dialog.body': 'bg:#000000 #00ff00',
-                'dialog shadow': 'bg:#00aa00',
-            })
-
             note_name = input_dialog(
                 title='Create a new note',
                 text="Please type the name of your new note:").run()
             if not note_name:
-                print_delimiter()
-                print("Empty name received, not doing anything")
                 return
 
             categories = []
@@ -146,9 +154,9 @@ class CommandPrompt:
 
             categories.sort()
             path = radiolist_dialog(
-                title=HTML('<style bg="blue" fg="white">Note</style> '
-                           '<style fg="ansired">creation</style> window'),
-                text=f"Please choose a category for your new note '{note_name}' \n",
+                # title=HTML('<style bg="blue" fg="white">Note</style> '
+                #            '<style fg="ansired">creation</style> window'),
+                text=f"Please specify the folder for your new note '{note_name}' \n",
                 values=categories,
                 style=box_style).run()
             if not path:
@@ -158,11 +166,15 @@ class CommandPrompt:
 
             new_note_path = f"{export_dir}{os.sep}{path}{os.sep}{note_name}.md"
             os.system(f"vim \"{new_note_path}\"")
-
-            message_dialog(
-                title='Note created successfully',
-                text=f'Your note has been saved at {new_note_path}',
-                style=box_style).run()
+            if os.path.exists(new_note_path):
+                message_dialog(
+                    title='Note created successfully',
+                    text=f'Your note has been saved at {new_note_path}',
+                    style=box_style).run()
+            else:
+                message_dialog(
+                    title='Note has not been created',
+                    text=f'Your note has not been saved').run()
 
         @self.bindings.add("f4")
         def _(event):
@@ -193,13 +205,6 @@ class CommandPrompt:
                 self.current_node.print_md()
                 print_delimiter()
 
-        def bottom_toolbar():
-            return [
-                ('class:toolbar', ' [F3] Create '),
-                ('class:toolbar', ' [F4] Edit ')
-            ]
-
-        self.bottom_toolbar = bottom_toolbar()
         self.current_node = None
 
     def input(self, prompt_str: str = None):
@@ -207,10 +212,11 @@ class CommandPrompt:
             _prompt_str = prompt_str
         else:
             _prompt_str = self.prompt_str
+        toolbar = get_bottom_toolbar()
         return self.session.prompt(_prompt_str, completer=self.completer,
                                    key_bindings=self.bindings,
                                    complete_while_typing=True,
-                                   bottom_toolbar=self.bottom_toolbar,
+                                   bottom_toolbar=toolbar,
                                    style=self.style)
 
     def set_current_node(self, node: TxtNode):
@@ -224,8 +230,10 @@ class SearchCompleter(Completer):
 
     def get_completions(self, document, complete_event):
         for node in self.nodes:
-            if document.text.lower() in node.normalized_name.lower():
+            if document.text.lower() in node.content.lower() or \
+                    document.text.lower() in node.title.lower():
                 yield Completion(node.normalized_name, start_position=-1000)
+
 
 
 class TriliumNotesSyncThread:
@@ -314,3 +322,5 @@ if __name__ == '__main__':
         main()
     except KeyboardInterrupt:
         pass
+    except Exception as e:
+        print(e)
