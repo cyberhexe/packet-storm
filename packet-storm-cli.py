@@ -97,7 +97,7 @@ class TxtNode:
         with open(abs_path, 'r') as f:
             self.content = f.read()
         self.normalized_name = self.abs_path.split('.')[0].split(self.root_dir)[1].lstrip(os.sep)
-        self.category = self.normalized_name.split(self.title)[0].rstrip(os.sep)
+        self.folder = self.normalized_name.split(self.title)[0].rstrip(os.sep)
 
     def print_md(self):
         print("\033c", end='')
@@ -149,8 +149,8 @@ class CommandPrompt:
 
             categories = []
             notes = load_notes(export_dir=export_dir)
-            for category in list(set(entry.category for entry in notes)):
-                categories.append((category, category))
+            for folder in list(set(entry.folder for entry in notes)):
+                categories.append((folder, folder))
 
             categories.sort()
             path = radiolist_dialog(
@@ -160,8 +160,6 @@ class CommandPrompt:
                 values=categories,
                 style=box_style).run()
             if not path:
-                print_delimiter()
-                print("No category has been chosen, not doing anything")
                 return
 
             new_note_path = f"{export_dir}{os.sep}{path}{os.sep}{note_name}.md"
