@@ -2,3 +2,4 @@ rich
 prompt_toolkit
 trilium-py
 requests
+nest-asyncio

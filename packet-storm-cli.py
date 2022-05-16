@@ -11,6 +11,15 @@ from prompt_toolkit.styles import Style
 from rich.console import Console
 from rich.markdown import Markdown
 from trilium_py.client import ETAPI
+import nest_asyncio
+from prompt_toolkit.shortcuts import input_dialog
+from prompt_toolkit.shortcuts import radiolist_dialog
+
+from prompt_toolkit.formatted_text import HTML
+from prompt_toolkit.shortcuts import button_dialog
+from prompt_toolkit.shortcuts import message_dialog
+
+nest_asyncio.apply()
 
 console = Console()
 
@@ -77,10 +86,11 @@ class TxtNode:
             raise Exception(f"{abs_path} does not exist")
         self.root_dir = root_dir
         self.abs_path = abs_path
-        self.title = os.path.basename(self.abs_path).rstrip(".mkd")
+        self.title = os.path.basename(self.abs_path).rstrip(".md")
         with open(abs_path, 'r') as f:
             self.content = f.read()
         self.normalized_name = self.abs_path.split('.')[0].split(self.root_dir)[1].lstrip(os.sep)
+        self.category = self.normalized_name.split(self.title)[0].rstrip(os.sep)
 
     def print_md(self):
         print("\033c", end='')
@@ -112,11 +122,51 @@ class CommandPrompt:
         # Create a set of key bindings
         self.bindings = KeyBindings()
 
+        @self.bindings.add("f3")
+        def _(event):
+            box_style = Style.from_dict({
+                'dialog': 'bg:#88ff88',
+                'dialog frame.label': 'bg:#ffffff #000000',
+                'dialog.body': 'bg:#000000 #00ff00',
+                'dialog shadow': 'bg:#00aa00',
+            })
+
+            note_name = input_dialog(
+                title='Create a new note',
+                text="Please type the name of your new note:").run()
+            if not note_name:
+                print_delimiter()
+                print("Empty name received, not doing anything")
+                return
+
+            categories = []
+            notes = load_notes(export_dir=export_dir)
+            for category in list(set(entry.category for entry in notes)):
+                categories.append((category, category))
+
+            categories.sort()
+            path = radiolist_dialog(
+                title=HTML('<style bg="blue" fg="white">Note</style> '
+                           '<style fg="ansired">creation</style> window'),
+                text=f"Please choose a category for your new note '{note_name}' \n",
+                values=categories,
+                style=box_style).run()
+            if not path:
+                print_delimiter()
+                print("No category has been chosen, not doing anything")
+                return
+
+            new_note_path = f"{export_dir}{os.sep}{path}{os.sep}{note_name}.md"
+            os.system(f"vim \"{new_note_path}\"")
+
+            message_dialog(
+                title='Note created successfully',
+                text=f'Your note has been saved at {new_note_path}',
+                style=box_style).run()
+
         @self.bindings.add("f4")
         def _(event):
             if not self.current_node:
-                print_delimiter()
-                print("There's nothing to edit yet")
                 return
             file_hash = md5(self.current_node.abs_path)
             os.system(f"vim '{self.current_node.abs_path}'")
@@ -145,6 +195,7 @@ class CommandPrompt:
 
         def bottom_toolbar():
             return [
+                ('class:toolbar', ' [F3] Create '),
                 ('class:toolbar', ' [F4] Edit ')
             ]
 
