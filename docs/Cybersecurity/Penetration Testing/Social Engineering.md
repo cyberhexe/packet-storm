@@ -21,12 +21,13 @@ You respond back, asking what version of Acrobat they use, as you might have sen
 On the way, you sneak in the question:
 
 
-“..and what Windows version are you running?”
+'..and what Windows version are you running?'
 
 
 The answer you receive confirms that your target is using a vulnerable version of Acrobat Reader.
 Armed with this information, you craft a second PDF file that targets their specific Acrobat and Windows versions, and send it over.
 ```
+
 
 Of course, this is a simplified success story – your social engineering pretexts may have to be more intricate.
 
