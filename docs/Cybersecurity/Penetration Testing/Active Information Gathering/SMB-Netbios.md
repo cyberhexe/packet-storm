@@ -2,7 +2,7 @@
 
 The SMB Netbios service listens on the `445/tcp` port. 
 It is also available through `139/tcp` port. 
-A list to clarify SMB version numbers, and their related Windows Operating system versions: 
+A list to clarify SMB version numbers, and their related Windows OS versions: 
 - SMB1 - Windows 2000, XP and Windows 2003. 
 - SMB2 – Windows Vista SP1 and Windows 2008 
 - SMB2.1 – Windows 7 and Windows 2008 R2 

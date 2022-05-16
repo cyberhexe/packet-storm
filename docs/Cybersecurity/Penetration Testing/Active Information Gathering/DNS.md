@@ -42,7 +42,8 @@ nmap --script=dns-zone-transfer -p 53 ns2.megacorpone.com
 ```
 
 ```bash
-host -t ns megacorpone.com host -l megacorpone.com ns2.megacorpone.com.
+host -t ns megacorpone.com 
+host -l megacorpone.com ns2.megacorpone.com.
 ```
 
 ## Enumerating DNS servers 

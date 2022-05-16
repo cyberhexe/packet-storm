@@ -1,5 +1,7 @@
 ## General Information
 
+- https://fadedlab.wordpress.com/2017/07/25/searching-ldap-using-nmaps-ldap-search-nse/
+
 `LDAP (Lightweight Directory Access Protocol)` is a software protocol for enabling anyone to locate organizations, 
 individuals, and other resources such as files and devices in a network, whether on the public Internet 
 or on a corporate intranet. LDAP is a "lightweight" (smaller amount of code) version of Directory Access Protocol (DAP).
