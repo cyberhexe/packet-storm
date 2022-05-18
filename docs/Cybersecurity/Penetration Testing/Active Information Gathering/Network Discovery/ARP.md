@@ -16,3 +16,9 @@ Using arping:
 ```bash
 arping -c 1 10.10.10.10
 ```
+
+Using arping with a specific interface:
+
+```bash
+arping -i eth2 -c 1 169.254.120.218
+```
