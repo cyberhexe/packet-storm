@@ -1,3 +1,7 @@
+## Artifactory Enumeration
+
+Resources:
+
 - https://www.errno.fr/artifactory/Attacking_Artifactory
 
 By default, no password locking policy is in place which makes Artifactory a prime target for credential stuffing and password spraying attacks.

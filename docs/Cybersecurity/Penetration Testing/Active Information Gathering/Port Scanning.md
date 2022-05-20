@@ -22,20 +22,31 @@ nmap -p 80 10.11.1.0/24 -oG web-sweep-nmap grep Ports web-sweep-nmap |grep open 
 
 ### Scanning ports 
 
-#### Running TCP connect scan with the number of ports limited to 20 
+Running TCP connect scan with the number of ports limited to 20 
 
 ```bash
 nmap -sT --top-ports 20 10.11.1.0/24 -oG top-ports-nmap cat top-ports-nmap |grep 21/open |cut -d" " -f2
 ```
 
-#### Grabbing the banner 
+Grabbing the banner 
 
 ```bash
 nmap -sV -O 10.11.1.8 nmap -A 10.11.1.8
 ```
 
-### Scanning UDP 
+Scanning UDP 
 
 ```bash
 nc -nv -u -z -w 1 10.0.0.19 160-162 (UNKNOWN) [10.0.0.19] 161 (snmp) open
+```
+
+### Scanning with Metasploit
+
+Using nmap with a Metasploit database:
+
+```bash
+msf > db_nmap -A 172.16.194.134
+[*] Nmap: Starting Nmap 5.51SVN ( http://nmap.org ) at 2012-06-18 12:36 EDT
+[*] Nmap: Nmap scan report for 172.16.194.134
+[*] Nmap: Host is up (0.00031s latency).
 ```
