@@ -1,5 +1,31 @@
 ## Docker Commands
 
+### Setting a proxy for running containers
+
+Create a configuration file:
+
+```bash
+mkdir -p ~/.docker/
+touch ~/.docker/config.json
+```
+
+Add the following content to the `config.json` file:
+
+```json
+{
+ "proxies":
+ {
+   "default":
+   {
+     "httpProxy": "socks5h://127.0.0.1:4200",
+     "httpsProxy": "socks5h://127.0.0.1:4200",
+     "noProxy": "127.0.0.0/8"
+   }
+ }
+}
+```
+
+
 Building Docker images for a different architecture:
 
 ```bash
