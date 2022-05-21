@@ -29,7 +29,7 @@ def get_arguments():
                              f'Default is {DEFAULT_THREADS_LIMIT}')
     options = parser.parse_args()
     if '*' not in options.target:
-        parser.error('Your target doesn\'t have an injection marker - "*". Use --help for more info')
+        parser.error("Your target doesn't have an injection marker - '*'. Use --help for more info.")
     return options
 
 

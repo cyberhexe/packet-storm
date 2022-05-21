@@ -1,4 +1,7 @@
 #!/usr/bin/env python3
+import nest_asyncio
+
+nest_asyncio.apply()
 import hashlib
 import os
 from threading import Thread
@@ -11,15 +14,10 @@ from prompt_toolkit.styles import Style
 from rich.console import Console
 from rich.markdown import Markdown
 from trilium_py.client import ETAPI
-import nest_asyncio
 from prompt_toolkit.shortcuts import input_dialog
 from prompt_toolkit.shortcuts import radiolist_dialog
 
-from prompt_toolkit.formatted_text import HTML
-from prompt_toolkit.shortcuts import button_dialog
 from prompt_toolkit.shortcuts import message_dialog
-
-nest_asyncio.apply()
 
 console = Console()
 
@@ -27,6 +25,7 @@ history_file = "~/.packet-storm-history"
 
 docs_extension_list = ['mkd', 'md', 'txt']
 
+current_note = None
 
 def get_arguments():
     from argparse import ArgumentParser
@@ -104,14 +103,37 @@ class TxtNode:
         console.print(Markdown(self.content))
 
 
-
-
 def get_bottom_toolbar():
     global toolbar_text
     return [
+        ('class:toolbar', ' [F2] List notes'),
         ('class:toolbar', ' [F3] Create note'),
         ('class:toolbar', ' [F4] Edit note')
     ]
+
+
+def create_radiolist_dialog(text: str, elements: list):
+    return radiolist_dialog(
+        # title=HTML('<style bg="blue" fg="white">Note</style> '
+        #            '<style fg="ansired">creation</style> window'),
+        text=text,
+        values=elements,
+        style=box_style)
+
+
+def get_notes_folders(export_dir: str):
+    folders = []
+    notes = load_notes(export_dir=export_dir)
+    for folder in list(set(entry.folder for entry in notes)):
+        folders.append((folder, folder))
+    folders.sort()
+    return folders
+
+
+def find_note(export_dir: str, note_normalized_name: str):
+    for note in load_notes(export_dir=export_dir):
+        if note_normalized_name == note.normalized_name or note.normalized_name in note_normalized_name:
+            return note
 
 
 class CommandPrompt:
@@ -121,6 +143,7 @@ class CommandPrompt:
                  server_url: str = None,
                  auth_token: str = None,
                  export_dir: str = None):
+        self.export_dir = export_dir
         self.prompt_str = prompt_str
         self.completer = completer
         self.style = style
@@ -139,6 +162,23 @@ class CommandPrompt:
         # Create a set of key bindings
         self.bindings = KeyBindings()
 
+        @self.bindings.add("f2")
+        def _(event):
+            notes = load_notes(export_dir=export_dir)
+            dialog_elements = []
+            for note in notes:
+                dialog_elements.append((note.abs_path, note.normalized_name))
+
+            path = create_radiolist_dialog(text=f"Select a note to open\n",
+                                           elements=dialog_elements).run()
+            if not path:
+                return
+            note = find_note(export_dir=export_dir, note_normalized_name=path)
+            global current_note
+            current_note = note
+            note.print_md()
+            print_delimiter()
+
         @self.bindings.add("f3")
         def _(event):
             note_name = input_dialog(
@@ -147,18 +187,10 @@ class CommandPrompt:
             if not note_name:
                 return
 
-            categories = []
-            notes = load_notes(export_dir=export_dir)
-            for folder in list(set(entry.folder for entry in notes)):
-                categories.append((folder, folder))
+            folders = get_notes_folders(export_dir=export_dir)
 
-            categories.sort()
-            path = radiolist_dialog(
-                # title=HTML('<style bg="blue" fg="white">Note</style> '
-                #            '<style fg="ansired">creation</style> window'),
-                text=f"Please specify the folder for your new note '{note_name}' \n",
-                values=categories,
-                style=box_style).run()
+            path = create_radiolist_dialog(text=f"Please specify the folder for your new note '{note_name}' \n",
+                                           elements=folders).run()
             if not path:
                 return
 
@@ -176,34 +208,34 @@ class CommandPrompt:
 
         @self.bindings.add("f4")
         def _(event):
-            if not self.current_node:
+            global current_note
+            if not current_note:
                 return
-            file_hash = md5(self.current_node.abs_path)
-            os.system(f"vim '{self.current_node.abs_path}'")
-            new_file_hash = md5(self.current_node.abs_path)
+            file_hash = md5(current_note.abs_path)
+            os.system(f"vim '{current_note.abs_path}'")
+            new_file_hash = md5(current_note.abs_path)
             if file_hash == new_file_hash:
                 # the file has not been changed
                 return
             else:
                 # push the changes to the trilium server
-                with open(self.current_node.abs_path, 'r') as f:
+                with open(current_note.abs_path, 'r') as f:
                     updated_content = f.read()
-                    self.current_node.content = updated_content
+                    current_note.content = updated_content
                 if self.sync_thread:
-                    response = self.sync_thread.ea.search_note(search=self.current_node.title)
+                    response = self.sync_thread.ea.search_note(search=current_note.title)
 
                     if 'results' in response:
                         for note in response['results']:
                             remote_note_title = note['title']
 
-                            if remote_note_title != self.current_node.title:
+                            if remote_note_title != current_note.title:
                                 continue
                             else:
                                 self.sync_thread.ea.update_note_content(noteId=note['noteId'], content=updated_content)
-                self.current_node.print_md()
+                current_note.print_md()
                 print_delimiter()
 
-        self.current_node = None
 
     def input(self, prompt_str: str = None):
         if prompt_str:
@@ -217,9 +249,6 @@ class CommandPrompt:
                                    bottom_toolbar=toolbar,
                                    style=self.style)
 
-    def set_current_node(self, node: TxtNode):
-        self.current_node = node
-
 
 class SearchCompleter(Completer):
     def __init__(self, nodes: list):
@@ -231,7 +260,6 @@ class SearchCompleter(Completer):
             if document.text.lower() in node.content.lower() or \
                     document.text.lower() in node.title.lower():
                 yield Completion(node.normalized_name, start_position=-1000)
-
 
 
 class TriliumNotesSyncThread:
@@ -285,6 +313,25 @@ def load_notes(export_dir: str):
     return nodes
 
 
+def start_interactive_prompt(export_dir: str,
+                             server_url: str = None,
+                             token: str = None):
+    nodes = load_notes(export_dir=export_dir)
+    word_completer = SearchCompleter(nodes)
+    command_prompt = CommandPrompt('>> ', completer=word_completer,
+                                   style=style,
+                                   server_url=server_url,
+                                   auth_token=token,
+                                   export_dir=export_dir)
+    docs_name = command_prompt.input()
+    for node in load_notes(export_dir=export_dir):
+        if docs_name == node.normalized_name:
+            global current_note
+            current_note = node
+            node.print_md()
+            print_delimiter()
+
+
 def main():
     options = get_arguments()
 
@@ -300,25 +347,16 @@ def main():
     if nodes:
         print_delimiter()
         print("What are you looking for?")
-        word_completer = SearchCompleter(nodes)
-        command_prompt = CommandPrompt('>> ', completer=word_completer,
-                                       style=style,
-                                       server_url=options.server_url,
-                                       auth_token=options.token,
-                                       export_dir=export_dir)
         while True:
-            docs_name = command_prompt.input()
-            for node in load_notes(export_dir=export_dir):
-                if docs_name == node.normalized_name:
-                    command_prompt.set_current_node(node)
-                    node.print_md()
-                    print_delimiter()
+            try:
+                start_interactive_prompt(export_dir=export_dir,
+                                         server_url=options.server_url,
+                                         token=options.token)
+            except KeyboardInterrupt:
+                exit()
+            except Exception:
+                pass
 
 
 if __name__ == '__main__':
-    try:
-        main()
-    except KeyboardInterrupt:
-        pass
-    except Exception as e:
-        print(e)
+    main()
