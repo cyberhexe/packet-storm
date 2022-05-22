@@ -65,6 +65,12 @@ Fuzz files:
 wfuzz -c -z file,/usr/share/seclists/Discovery/Web-Content/raft-medium-files.txt "$URL" |grep -ivE '404|403'
 ```
 
+Hide 404 codes:
+
+```bash
+wfuzz -c -z file,/usr/share/seclists/Discovery/Web-Content/raft-medium-files.txt --hc 404 "$URL"
+```
+
 Authenticated fuzzing:
 
 ```bash
