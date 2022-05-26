@@ -81,3 +81,9 @@ meterpreter > run packetrecorder -li
 meterpreter > run packetrecorder -i 2 -l /root/
 root@kali:~/logs/packetrecorder/XEN-XP-SP2-BARE_20101119.5105# tshark -r XEN-XP-SP2-BARE_20101119.5105.cap |grep PASS
 ```
+
+## Sniffing serial ports
+
+- https://github.com/nochkin/interceptty                                                       
+- https://github.com/snarlistic/jpnevulator                                                    
+
