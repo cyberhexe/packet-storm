@@ -3,3 +3,4 @@ prompt_toolkit
 trilium-py
 requests
 nest-asyncio
+asyncio

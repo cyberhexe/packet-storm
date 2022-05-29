@@ -3,7 +3,7 @@
 Your personal hacking station. 
 
 Contains a Docker image with a tool that recursively 
-walks through the given folder and creates a command-line note application for handling them. 
+walks through the given folder and creates a command-line note application for handling markdown and/or text files it discovers. 
 
 
 ### Usage

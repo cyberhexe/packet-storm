@@ -332,7 +332,23 @@ def start_interactive_prompt(export_dir: str,
             print_delimiter()
 
 
+def handle_exception(loop, context):
+    pass
+
+import asyncio
+import signal
+
 def main():
+
+    loop = asyncio.get_event_loop()
+    # May want to catch other signals too
+    signals = (signal.SIGHUP, signal.SIGTERM, signal.SIGINT)
+    for s in signals:
+        loop.add_signal_handler(
+            s, lambda s=s: asyncio.create_task(shutdown(loop, signal=s)))
+    loop.set_exception_handler(handle_exception)
+
+
     options = get_arguments()
 
     nodes = []
