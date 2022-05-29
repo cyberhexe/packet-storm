@@ -14,14 +14,6 @@ RUN pip3 install -r "$PACKET_STORM_HOME/requirements.txt"
 
 WORKDIR "$PACKET_STORM_HOME"
 
-COPY docs/Cybersecurity "$PACKET_STORM_DOCS/Cybersecurity"
-RUN find . -name *.md -exec pandoc -f markdown '{}' >> index.html \;
-RUN rm -rf /var/www/html/index.html && \
-    cp index.html /var/www/html/
-
-COPY inotify.sh "$PACKET_STORM_HOME/"
-COPY entrypoint.sh "$PACKET_STORM_HOME/"
-
 COPY packet-storm-cli.py "$PACKET_STORM_HOME/"
 
-ENTRYPOINT ["/bin/bash", "entrypoint.sh"]
+ENTRYPOINT ["/usr/bin/python3", "packet-storm-cli.py"]
