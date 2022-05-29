@@ -1,36 +1,19 @@
 # packet-storm
 
-Your personal hacking station.
+Your personal hacking station. 
+
+Contains a Docker image with a tool that recursively 
+walks through the given folder and creates a command-line note application for handling them. 
 
 
-### Minimalistic setup
+### Usage
 
 Building with Docker:
 ```bash
-docker build -t packet-storm -f ./Dockerfile .
+docker-compose up --build --force-recreate
 ```
 
-Printing help:
+Attaching to the standard streams:
 ```bash
-docker run --rm -it packet-storm -h
-```
-
-Running in interactive mode:
-```bash
-docker run --rm -it packet-storm
-```
-
-Or download the image from Docker Hub:
-```bash
-docker run --rm -it cyberhexe/packet-storm
-```
-
-Start a persistent container:
-```bash
-docker run --restart=always -it cyberhexe/packet-storm
-```
-
-Attach to the running container:
-```bash
-docker attach $(docker ps -a |grep packet-storm|cut -d" " -f1)
+docker attach packet-storm
 ```
