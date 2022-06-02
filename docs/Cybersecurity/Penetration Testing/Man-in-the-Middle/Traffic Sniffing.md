@@ -48,6 +48,12 @@ Extracting all outgoing IP addresses
 tshark -r darksouls.pcapng -Y "ip.dst_host != 192.168.178.43" -T fields -e ip.dst_host |sort |uniq
 ```
 
+Sniffing over SSH:
+
+```bash
+ssh user@host "sudo tcpdump -U -i eth0 -w -" |wireshark -i - -k
+```
+
 ## Sniffing with bettercap
 
 Starting bettercap with a web server
