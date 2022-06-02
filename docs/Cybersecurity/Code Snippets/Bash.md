@@ -1,19 +1,36 @@
-## File Watchers
+## Networking
 
-Create an inotify watcher:
+Invoking scripts on interface creation:
 
 ```bash
-#!/bin/bash
+cat /etc/network/if-up.d/huawei-network
 
-path="./docs/Cybersecurity/"
+#! /bin/sh
+# Remove the default route added by the Huawei modem when it shows up
 
-inotifywait -r -q -m -e close_write "$path" |
-while read -r filename event; do
-  rm -rf ./index.html
-  find . -name *.md -exec pandoc -f markdown '{}' >> ./index.html \; 
-  rm -rf /var/www/html/index.html
-  cp ./index.html /var/www/html/
-done
+set -e
+
+# Only run from ifup.
+if [ "$MODE" != start ]; then
+	exit 0
+fi
+
+if [ "$IFACE" = eth1 ]; then
+    ip ro del default via 192.168.8.1 dev eth1 proto dhcp src 192.168.8.100 metric 100 
+    ip ro add 10.10.10.10 via 192.168.8.1 dev eth1 proto dhcp src 192.168.8.100 metric 100
+    ip ro add 10.10.10.12 via 192.168.8.1 dev eth1 proto dhcp src 192.168.8.100 metric 100
+fi
+```
+
+## APT Commands
+
+Using APT with a proxy:
+
+- https://askubuntu.com/a/257296
+
+```bash
+echo ‘Acquire::http::Proxy "socks5h://127.0.0.1:4200";’ > /etc/apt/apt.conf.d/11-proxy
+apt update
 ```
 
 ## Docker Commands
