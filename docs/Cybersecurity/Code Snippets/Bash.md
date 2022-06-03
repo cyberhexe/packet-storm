@@ -1,9 +1,17 @@
+## Tar files
+
+Tar files or folders:
+
+```bash
+tar czf Atutor.tar.gz Atutor/
+```
+
 ## Networking
 
 Invoking scripts on interface creation:
 
 ```bash
-cat /etc/network/if-up.d/huawei-network
+# cat /etc/network/if-up.d/huawei-network
 
 #! /bin/sh
 # Remove the default route added by the Huawei modem when it shows up
