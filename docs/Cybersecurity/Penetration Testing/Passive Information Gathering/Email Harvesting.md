@@ -1,3 +1,4 @@
+## Email Harvesting
 
 Email harvesting is an effective way of finding emails, and possibly usernames, belonging to an organization. 
 These emails are useful in many ways, such as providing us a potential list for client side attacks, revealing the naming convention used in the organization, or mapping out users in the organization.

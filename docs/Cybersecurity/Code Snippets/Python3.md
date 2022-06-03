@@ -31,3 +31,22 @@ print(target_sequence in modified)
 with open(target_file_name, "wb") as f:
     f.write(bytes.fromhex(modified))
 ```
+
+Create a proxy server with Twistd:
+
+```python
+#!/usr/bin/env python3
+from twisted.protocols.portforward import ProxyFactory
+from twisted.application import internet,service
+
+src_ip = "10.91.20.66"
+src_port = 8080
+dst_ip = "127.0.0.1"
+dst_port = 8080
+
+application = service.Application("Proxy")
+server = ProxyFactory(dst_ip, dst_port)
+ps = internet.TCPServer(src_port,server,50,src_ip)
+
+ps.setServiceParent(application)
+```
