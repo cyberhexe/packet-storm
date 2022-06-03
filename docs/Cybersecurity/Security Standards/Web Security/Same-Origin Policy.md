@@ -30,7 +30,7 @@ How is the same-origin policy implemented?
 The same-origin policy generally controls the access that JavaScript code has to content that is loaded cross-domain. 
 Cross-origin loading of page resources is generally permitted. 
 
-For example, the SOP allows embedding of images via the <img> tag, media via the <video> tag and JavaScript includes with the <script> tag. However, while these external resources can be loaded by the page, any JavaScript on the page won't be able to read the contents of these resources.      
+For example, the SOP allows embedding of images via the `<img>` tag, media via the `<video>` tag and JavaScript includes with the `<script>` tag. However, while these external resources can be loaded by the page, any JavaScript on the page won't be able to read the contents of these resources.      
 
 There are various exceptions to the same-origin policy:      
 - Some objects are writable but not readable cross-domain, such as the location object or the location.href property from iframes or new windows.  

