@@ -4,8 +4,13 @@ ENV PACKET_STORM_HOME="/packet-storm-cli"
 ENV PACKET_STORM_DOCS="$PACKET_STORM_HOME/docs"
 
 RUN apt update && \
-    DEBIAN_FRONTEND=noninteractive apt install nginx inotify-tools pandoc vim python3 python3-pip python3-magic unzip -y && \
+    DEBIAN_FRONTEND=noninteractive apt install neovim wget curl git nginx inotify-tools pandoc vim-nox python3 python3-pip python3-magic unzip -y && \
     mkdir "$PACKET_STORM_HOME"
+
+# configure vim
+RUN mkdir -p /root/.vim/autoload/
+COPY vimrc /root/.vimrc
+RUN vim +'PlugInstall --sync' +qa
 
 WORKDIR "$PACKET_STORM_DOCS"
 
