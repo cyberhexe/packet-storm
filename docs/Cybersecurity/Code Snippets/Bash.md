@@ -1,3 +1,11 @@
+## Virtual Box
+
+Mounting a shared folder on Linux:
+
+```bash
+sudo mount -t vboxsf shared ~/shared
+```
+
 ## Tar files
 
 Tar files or folders:
