@@ -1,3 +1,21 @@
+## HEX
+
+ASCII to HEX:
+
+Big endian:
+
+```bash
+$ printf "AAAA" |xxd -ps                                                                                                                                                                                                                              130 ⨯
+41414141
+```
+
+Little endian:
+
+```bash
+$ printf "sosi" |xxd -e
+00000000: 69736f73                             sosi
+```
+
 ## Virtual Box
 
 Mounting a shared folder on Linux:
@@ -28,7 +46,7 @@ set -e
 
 # Only run from ifup.
 if [ "$MODE" != start ]; then
-	exit 0
+    exit 0
 fi
 
 if [ "$IFACE" = eth1 ]; then
