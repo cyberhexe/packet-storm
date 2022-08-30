@@ -10,10 +10,10 @@ walks through the given folder and creates a command-line note application for h
 
 Building with Docker:
 ```bash
-docker-compose up --build --force-recreate
+docker-compose up --build --force-recreate --detach
 ```
 
-Attaching to the standard streams:
+Using packet-storm:
 ```bash
 docker attach packet-storm
 ```
