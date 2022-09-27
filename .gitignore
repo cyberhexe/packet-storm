@@ -4,3 +4,6 @@ documentation/cherrytree-export/
 **meta.json
 trilium-data/
 **.html
+
+# red-toolkit runtime files
+!toolkit/red-toolkit.md

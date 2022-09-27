@@ -4,3 +4,4 @@ trilium-py
 requests
 nest-asyncio
 asyncio
+gitpython

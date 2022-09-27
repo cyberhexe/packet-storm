@@ -23,18 +23,6 @@ jobs:
           tag: ${{ steps.bump-semver.outputs.new_version }}
           message: '${{ steps.bump-semver.outputs.new_version }}: PR #${{ github.event.pull_request.number }} ${{ github.event.pull_request.title }}'
 
-      - uses: actions/checkout@v2
-      - run: zip -r Cybersecurity.zip ./docs/Cybersecurity
-      - uses: actions/upload-artifact@v3
-        with:
-          path: Cybersecurity.zip
-
-      - uses: ncipollo/release-action@v1
-        with:
-          artifacts: "Cybersecurity.zip"
-          token: ${{ secrets.GITHUB_TOKEN }}
-          tag: ${{ steps.bump-semver.outputs.new_version }}
-
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v1
       - name: Set up Docker Buildx

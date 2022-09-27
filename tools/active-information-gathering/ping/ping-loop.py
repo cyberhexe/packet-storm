@@ -23,7 +23,6 @@ for i in range(0, 255):
     address = f'{chunks[0]}.{chunks[1]}.{chunks[2]}.{i}'
     try:
         command = f'ping -c 1 {address} |grep "bytes from" |cut -d ":" -f1 |cut -d " " -f4 &'
-        # command = f'ping -c 1 {address}'
         result = subprocess.call(command, shell=True)
     except Exception as e:
         continue

@@ -5,9 +5,8 @@ services:
     build:
       dockerfile: ./Dockerfile
       context: ./
-    container_name: packet-storm
-    volumes:
-      - ./docs/Cybersecurity:/packet-storm-cli/docs/Cybersecurity
+    hostname: m0rgu3_w1tch
     tty: true
     stdin_open: true
-    entrypoint: '/usr/bin/python3 packet-storm-cli.py -ed docs/Cybersecurity'
+    entrypoint: '/usr/bin/python3 packet-storm-cli.py'
+

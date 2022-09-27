@@ -1,3 +1,0 @@
-- https://github.com/security-prince/Application-Security-Engineer-Interview-Questions
-- https://www.wisdomjobs.com/e-university/application-security-interview-questions.html
-- https://www.synopsys.com/blogs/software-security/web-appsec-interview-questions/
